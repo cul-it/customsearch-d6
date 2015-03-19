@@ -1,6 +1,6 @@
 /*
-cu_customsearch is a module to replace GooSACUL. Instead of using the
-Google Search Appliance, it uses Google Custom Search 
+customsearch_d6 is a module to replace GooSACUL. Instead of using the
+Google Search Appliance, it uses Google Custom Search
 http://www.google.com/cse/
 It is a plugin replacement for goosacul - the old search forms should work
 without modification.
@@ -14,10 +14,10 @@ Installation:
 	in the google_cse admin at /admin/settings/google_cse
 		set Google Custom Search Engine ID to the one from your google custom search
 			Cornell Library Sites:  017399541683802799304:1axhejcyau8
-		set Search results page title - used for page title by cu_customsearch
+		set Search results page title - used for page title by customsearch_d6
 		set SiteSearch domain to (your site domain) Search this site
 		uncheck Search results "Add to Google" Google Gadget
-	install and enable cu_customsearch
+	install and enable customsearch_d6
 	if you have an actual page /search/cul_gsa get rid of it
 
 Use:
@@ -31,7 +31,7 @@ Use:
 		Google CSE
 		Google CSE results
 		Cornell Custom Search Form
-		
+
 Note:
 	sitesearch domains must be part of your 'Custom Search Element' sites list
 	you can list more than one SiteSearch domain in /admin/settings/google_cse
