@@ -5,7 +5,7 @@
  * @file
  * Cornell University Custom Search
  */
- 
+
 /**
  * replacement for module goosacul
  * uses google custom search element instead of google search appliance
@@ -16,7 +16,7 @@
  *			library - search the libraries collection within GSA
  *			cornell - search all of cornell.edu
  *		other google specific parameters - "q", "submit",
- *		"output", "sort", "ie", "client", "oe", "site", "start", "num", "hl", 
+ *		"output", "sort", "ie", "client", "oe", "site", "start", "num", "hl",
  *		"lr", "access", "sa"
  * cu_sitesearch is set up to use these parameters
  *		qp - query parameter
@@ -24,9 +24,9 @@
  *			thisone - search the current site
  *			custom - search the full cse domain list
  *			cornell - jump to cornell.edu search preserving any query parameter
- *		these arguments get recoded by cu_customsearch_init
+ *		these arguments get recoded by customsearch-d6_init
  * google_cse allows you to select multiple specific domains within the cse's
- *		domain list so the sitesearch parameter is a domain name or 
+ *		domain list so the sitesearch parameter is a domain name or
  *		null for 'search the whole domain list'
  * be sure to add the current site to admin/settings/google_cse SiteSearch domain
  *		so thisone will work!
@@ -38,7 +38,7 @@
  *	when arguments are recoded google_cse shows search results without having to
  *		hit the find button first
  */
-function cu_customsearch_init() {
+function customsearch-d6_init() {
 	$cu_search = (arg(0) == 'cu_search');
 	$goosacul = (arg(0) == 'search' && arg(1) == 'cul_gsa');
 	if ($cu_search || $goosacul) {
@@ -83,17 +83,17 @@ function cu_customsearch_init() {
 /**
  * Implementation of hook_perm
  */
-function cu_customsearch_perm() {
+function customsearch-d6_perm() {
 	return array('Cornell custom search');
 }
 
 /**
  * Implementation of hook_menu().
  */
-function cu_customsearch_menu() {
+function customsearch-d6_menu() {
 	$items['cu_search'] = array (
 		'title' => 'Cornell Custom Search',
-		'page callback' => '_cu_customsearch_page',
+		'page callback' => '_customsearch-d6_page',
 		'access arguments' => array('Cornell custom search'),
 		'type' => MENU_CALLBACK,
 		);
@@ -104,17 +104,17 @@ function cu_customsearch_menu() {
  * this page shows the custom search and any current search results
  * uses Google Custom Search to search 'this site'
  */
-function _cu_customsearch_page($query_string = '') {
+function _customsearch-d6_page($query_string = '') {
 	google_cse_results_set_title(); // get page title from google_cse admin
 	$block2 = module_invoke('google_cse', 'block', 'view', 1);
 	$output .= $block2['content'];
 	return $output;
-} 
-	
+}
+
 /**
  * code to return web form parameters
  */
-function _cu_customsearch_form_parameters() {
+function _customsearch-d6_form_parameters() {
 	$params = array();
 	$legal_params = array( "qp", "sitesearch");
 	if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -128,7 +128,7 @@ function _cu_customsearch_form_parameters() {
 			$params["$param"] = isset($_GET["$param"]) ? $_GET["$param"] : "";
 			}
 		}
-		
+
 	return $params;
 	}
 
@@ -136,7 +136,7 @@ function _cu_customsearch_form_parameters() {
 /**
  * Implementation of hook_block
  */
-function cu_customsearch_block($op='list', $delta=0, $edit=array()) {
+function customsearch-d6_block($op='list', $delta=0, $edit=array()) {
 	switch ($op) {
 		case 'list':
 			$blocks[0] = array(
@@ -147,10 +147,10 @@ function cu_customsearch_block($op='list', $delta=0, $edit=array()) {
 		case 'view':
 			switch ($delta) {
 				case 0:
-					$params = _cu_customsearch_form_parameters();
-					$form = _cu_customsearch_block($params);
-		
-					
+					$params = _customsearch-d6_form_parameters();
+					$form = _customsearch-d6_block($params);
+
+
 					$blocks['subject'] = t('Cornell Search');
 					$blocks['content'] = $form;
 					break;
@@ -162,13 +162,13 @@ function cu_customsearch_block($op='list', $delta=0, $edit=array()) {
 /**
  * a block contianing the search form
  */
-function _cu_customsearch_block($params) {
+function _customsearch-d6_block($params) {
 	$query = isset($params['qp']) ? check_plain($params['qp']) : '';
 	$search = isset($params['sitesearch']) ? $params['sitesearch'] : 'thisone';
 	$radios = array('thisone' => 'This site', 'custom' => 'GSE', 'cornell' => 'Cornell');
 	if (!isset($radios["$search"])) $search = 'thisone';
 	$output[] = '<div id="search-form">';
-	///$output[] = '<form action="/cu_customsearch_action" method="POST">';
+	///$output[] = '<form action="/customsearch-d6_action" method="POST">';
 	$output[] = '<form action="/cu_search" method="POST">';
 	$output[] = '<div id="search-input">';
 	$output[] = '<label for="search-form-query">SEARCH:</label>';
@@ -194,7 +194,7 @@ function _cu_customsearch_block($params) {
 /**
  * Implementation of hook_form_alter()
  */
-function cu_customsearch_form_alter(&$form, $form_state, $form_id) {
+function customsearch-d6_form_alter(&$form, $form_state, $form_id) {
 	if ($form_id == 'google_cse_results_searchbox_form') {
 		if (false && isset($form['query'])) {
 			if (empty($form['query']['#default_value'])) {
